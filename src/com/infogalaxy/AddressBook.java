@@ -1,13 +1,16 @@
 package com.infogalaxy;
 
+import java.util.ArrayList;
+
 import java.util.Scanner;
 
 public class AddressBook {
     //UC-1-Display Address Book Data
     Scanner scanner = new Scanner(System.in);
-    com.infogalaxy.contact contact = new contact();
+    ArrayList<Contact> contactList = new ArrayList();
 
-    public void addContact() {
+    public void addcontact() {
+        Contact contact = new Contact();
         System.out.println("Enter the First Name : ");
         contact.setFirstName(scanner.next());
         System.out.println("Enter the Last Name : ");
@@ -24,16 +27,32 @@ public class AddressBook {
         contact.setEmail(scanner.next());
         System.out.println("Enter the Zip Code : ");
         contact.setZip(scanner.next());
+        contactList.add(contact);
     }
     public void displayContact() {
-        System.out.println(contact.toString());
+        for(int i = 0; i < contactList.size(); i ++) {
+            Contact contact = contactList.get(i);
+            System.out.println(contactList.toString());
+        }
     }
-
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         AddressBook addressBook = new AddressBook();
-        addressBook.addContact();
-        addressBook.displayContact();
-
+        int choice;
+        do {
+            System.out.println("*** CONTACT INVENTORY MANAGEMENT ***");
+            System.out.println("1. ADD CONTACT \n2. DISPLAY CONTACT \n3. EXIT ");
+            System.out.println("Enter Your Choice : ");
+            choice = scanner.nextInt();
+            switch(choice) {
+                case 1:
+                    addressBook.addcontact();
+                    break;
+                case 2:
+                    addressBook.displayContact();
+                    break;
+            }
+        } while (choice != 3);
     }
 }
 
