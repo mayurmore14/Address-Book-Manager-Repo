@@ -11,6 +11,7 @@ public class AddressBook {
 
     public void addcontact() {
         Contact contact = new Contact();
+
         System.out.println("Enter the First Name : ");
         contact.setFirstName(scanner.next());
         System.out.println("Enter the Last Name : ");
@@ -27,12 +28,13 @@ public class AddressBook {
         contact.setEmail(scanner.next());
         System.out.println("Enter the Zip Code : ");
         contact.setZip(scanner.next());
+
         contactList.add(contact);
     }
     public void displayContact() {
         for(int i = 0; i < contactList.size(); i ++) {
             Contact contact = contactList.get(i);
-            System.out.println(contactList.toString());
+            System.out.println(contact.toString());
         }
     }
     public static void main(String[] args) {
@@ -55,5 +57,6 @@ public class AddressBook {
         } while (choice != 3);
     }
 }
+
 
 
