@@ -1,5 +1,9 @@
 package com.infogalaxy;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import java.util.Scanner;
@@ -107,6 +111,21 @@ public class AddressBook {
         }
     }
 
+    public void BackupToFile() {
+        String c_Data= null;
+        for (int i = 0; i < contactList.size(); i++) {
+            Contact contact = contactList.get(i);
+            c_Data = contact.getFirstName()+","+contact.getLastName()+","+contact.getAddress()+","+contact.getCity()
+                    +","+contact.getState()+","+contact.getMobno()+","+contact.getEmail()+","+contact.getZip()+"\n"+c_Data;
+            try {
+                Path file = Paths.get("MyData.txt");
+                byte[] fileData = c_Data.getBytes();
+                Files.write(file, fileData);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     public static void main(String[] args) {
 
         Scanner scanner1 = new Scanner(System.in);
@@ -114,7 +133,9 @@ public class AddressBook {
         int choice;
         do {
             System.out.println("*** CONTACT INVENTORY MANAGEMENT ***");
-            System.out.println("1. ADD CONTACT \n2. DISPLAY CONTACT \n3. EDIT CONTACT \n4. SEARCH STATE \n5. DELETE CONTACT \n6. EXIT ");
+            System.out.println("1. ADD CONTACT \n2. DISPLAY CONTACT \n3. EDIT CONTACT \n4. SEARCH STATE \n5. DELETE CONTACT" +
+                     "\n6.BACK UP TO FILE \n7. EXIT ");
+
             System.out.println("Enter Your Choice : ");
             choice = scanner1.nextInt();
             switch (choice) {
@@ -134,12 +155,14 @@ public class AddressBook {
                 case 5:
                     addressBook.DeleteContact();
                     break;
+
+                case 6:
+                    addressBook.BackupToFile();
+                    break;
             }
         }
-        while (choice != 6);
-        {
+        while (choice != 7);
 
-        }
     }
 }
 
