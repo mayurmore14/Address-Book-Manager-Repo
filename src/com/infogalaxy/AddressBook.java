@@ -1,5 +1,8 @@
 package com.infogalaxy;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -112,11 +115,11 @@ public class AddressBook {
     }
 
     public void BackupToFile() {
-        String c_Data= null;
+        String c_Data = null;
         for (int i = 0; i < contactList.size(); i++) {
             Contact contact = contactList.get(i);
-            c_Data = contact.getFirstName()+","+contact.getLastName()+","+contact.getAddress()+","+contact.getCity()
-                    +","+contact.getState()+","+contact.getMobno()+","+contact.getEmail()+","+contact.getZip()+"\n"+c_Data;
+            c_Data = contact.getFirstName() + "," + contact.getLastName() + "," + contact.getAddress() + "," + contact.getCity()
+                    + "," + contact.getState() + "," + contact.getMobno() + "," + contact.getEmail() + "," + contact.getZip() + "\n" + c_Data;
             try {
                 Path file = Paths.get("MyData.txt");
                 byte[] fileData = c_Data.getBytes();
@@ -126,6 +129,31 @@ public class AddressBook {
             }
         }
     }
+
+    public void restoreFromFile() {
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("MyData.txt"));
+            String data;
+            while ((data = bufferedReader.readLine()) != null && !data.equalsIgnoreCase("null")) {
+                String[] separateData = data.split(",");
+                Contact contact = new Contact();
+                contact.setFirstName(separateData[0]);
+                contact.setLastName(separateData[1]);
+                contact.setAddress(separateData[2]);
+                contact.setCity(separateData[3]);
+                contact.setState(separateData[4]);
+                contact.setMobno(separateData[5]);
+                contact.setEmail(separateData[6]);
+                contact.setZip(separateData[7]);
+                contactList.add(contact);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
 
         Scanner scanner1 = new Scanner(System.in);
@@ -134,7 +162,7 @@ public class AddressBook {
         do {
             System.out.println("*** CONTACT INVENTORY MANAGEMENT ***");
             System.out.println("1. ADD CONTACT \n2. DISPLAY CONTACT \n3. EDIT CONTACT \n4. SEARCH STATE \n5. DELETE CONTACT" +
-                     "\n6.BACK UP TO FILE \n7. EXIT ");
+                    "\n6.BACK UP TO FILE \n7. RESTORE FROM FILE \n8. EXIT ");
 
             System.out.println("Enter Your Choice : ");
             choice = scanner1.nextInt();
@@ -159,9 +187,12 @@ public class AddressBook {
                 case 6:
                     addressBook.BackupToFile();
                     break;
+                case 7:
+                    addressBook.restoreFromFile();
+                    break;
             }
         }
-        while (choice != 7);
+        while (choice != 8);
 
     }
 }
